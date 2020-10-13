@@ -9,4 +9,4 @@
 .env.test.local
 .env.production.local
 
-src/database/database.sqlite
+/src/database/database.sqlite
