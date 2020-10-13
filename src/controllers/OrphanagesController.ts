@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Orphanage } from "../models/Orphanage";
 import orphanageView from "../views/OrphanagesView";
+import * as yup from "yup";
 
 export default {
   async index(req: Request, res: Response) {
@@ -38,7 +39,7 @@ export default {
       return { path: image.filename };
     });
 
-    const orphanage = orphanagesRepository.create({
+    const data = {
       name,
       latitude,
       longitude,
@@ -47,7 +48,24 @@ export default {
       opening_hours,
       open_on_weekends,
       images,
+    };
+
+    const schema = yup.object().shape({
+      name: yup.string().required(),
+      latitude: yup.number().required(),
+      longitude: yup.number().required(),
+      about: yup.string().required().max(300),
+      instructions: yup.string().required(),
+      opening_hours: yup.string().required(),
+      open_on_weekends: yup.boolean().required(),
+      images: yup
+        .array(yup.object().shape({ path: yup.string().required() }))
+        .required(),
     });
+
+    await schema.validate(data, { abortEarly: false });
+
+    const orphanage = orphanagesRepository.create(data);
 
     await orphanagesRepository.save(orphanage);
 
