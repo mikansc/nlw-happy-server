@@ -30,7 +30,7 @@ app.post("/orphanages", async (req, res) => {
 
   await orphanagesRepository.save(orphanage);
 
-  res.json({ message: "Rota get" });
+  return res.status(201).json(orphanage);
 });
 
 app.listen(3001);
