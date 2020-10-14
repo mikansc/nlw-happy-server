@@ -12,3 +12,4 @@
 /src/database/database.sqlite
 
 uploads/*
+src/database/database.sqlite
