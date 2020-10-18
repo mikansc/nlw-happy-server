@@ -12,4 +12,5 @@
 /src/database/database.sqlite
 
 uploads/*
+!uploads/.gitkeep
 src/database/database.sqlite
